@@ -75,6 +75,26 @@ namespace Programming_Challenge_SNFC
                             Console.WriteLine("An error occurred while writing top earner info to " + args[0] + Definitions.REQUIREMENTTWOFILENAME + ": " + e.Message);
                         }
                     }
+
+                    if(payChecks != null)
+                    {
+                        List<StateData> stateData = null;
+                        try
+                        {
+                            Console.WriteLine("Gathering state data from paychecks");
+                            stateData = Utility.generateStateData(payChecks);
+                            Console.WriteLine("Sorting state data");
+                            stateData = Utility.sortStateData(stateData);
+                            Console.WriteLine("Writing state data to file");
+                            Utility.printStateData(args[0], stateData);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("An error occurred while writing state data info to " + args[0] + Definitions.REQUIREMENTTHREEFILENAME + ": " + e.Message);
+                        }
+                    }
+
+
                 }
             }
         }

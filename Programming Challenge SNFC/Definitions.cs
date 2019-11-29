@@ -37,6 +37,20 @@ namespace Programming_Challenge_SNFC
                                                                             new TaxRate(){ State = "TX", rate = 0.07M }
         }.ToList();
 
+        public static readonly List<string[]> STATENAMES = new List<string[]>
+        {
+            new string[]{"UT", "Utah"},
+            new string[]{"WY", "Wyoming"},
+            new string[]{"NV", "Nevada"},
+            new string[]{"CO", "Colorado"},
+            new string[]{"ID", "Idaho"},
+            new string[]{"AZ", "Arizona"},
+            new string[]{"OR", "Oregon"},
+            new string[]{"WA", "Washington"},
+            new string[]{"NM", "New Mexico"},
+            new string[]{"TX", "Texas"}
+        };
+
         /// <summary>
         /// The definition for the federal income tax rate
         /// </summary>
@@ -46,6 +60,6 @@ namespace Programming_Challenge_SNFC
 
         public static readonly string REQUIREMENTONEFILENAME = "/PayStubs.txt";
         public static readonly string REQUIREMENTTWOFILENAME = "/TopEarners.txt";
-        public static readonly string REQUIREMENTTHREEFILENAME = "";
+        public static readonly string REQUIREMENTTHREEFILENAME = "/StateData.txt";
     }
 }

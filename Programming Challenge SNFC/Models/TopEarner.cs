@@ -16,7 +16,7 @@ namespace Programming_Challenge_SNFC.Models
             return FirstName + " "
                 + LastName + " "
                 + YearsWorked + " "
-                + Pay;
+                + Pay.ToString("C");
         }
     }
 }

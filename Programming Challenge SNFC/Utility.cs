@@ -248,7 +248,7 @@ namespace Programming_Challenge_SNFC
                         decimal grosspay = 0.0M;
                         if(employee.Paycode == 'S')
                         {
-                            grosspay = employee.Payrate;
+                            grosspay = employee.Payrate / 26.0M; // Assiuming a 52 week year, their salary will be split into 26 even pieces
                         }
                         else
                         {
@@ -608,6 +608,99 @@ namespace Programming_Challenge_SNFC
                 else
                 {
                     throw new Exception("Error in Utilities.printTopEarnerInfo: An unexpected error has occurred");
+                }
+            }
+        }
+        #endregion
+        #region generateStateData()
+        public static List<StateData> generateStateData(List<PayCheck> payChecks)
+        {
+            if (payChecks != null)
+            {
+                List<StateData> returnThis = new List<StateData>();
+
+                foreach(string statecode in Definitions.VALIDSTATES)
+                {
+                    returnThis.Add(new StateData(statecode));
+                }
+
+                foreach(PayCheck payCheck in payChecks)
+                {
+                    returnThis.Find(state => state.StateCode == payCheck.StateCode).addPayCheck(payCheck);
+                }
+
+                return returnThis;
+            }
+            else
+            {
+                throw new ArgumentNullException("Error in Utility.generateStateData(): Null value passed into payChecks parameter");
+            }
+        }
+        #endregion
+        #region sortStateData()
+        public static List<StateData> sortStateData(List<StateData> stateData)
+        {
+            for(int n = stateData.Count - 2; n > 0; n--)
+            {
+                for(int i = 0; i < n; i++)
+                {
+                    if(String.Compare(stateData[i].StateName, stateData[i + 1].StateName) > 0)
+                    {
+                        StateData holdThis = stateData[i];
+                        stateData[i] = stateData[i + 1];
+                        stateData[i + 1] = holdThis;
+                    }
+                }
+            }
+
+            return stateData;
+        }
+        #endregion
+        #region printStateData()
+        public static void printStateData(string outputlocation, List<StateData> stateData)
+        {
+            if (outputlocation != null && stateData != null)
+            {
+                try
+                {
+                    using (StreamWriter output = new StreamWriter(outputlocation + Definitions.REQUIREMENTTHREEFILENAME))
+                    {
+                        foreach(StateData state in stateData)
+                        {
+                            output.WriteLine(state.ToString());
+                        }
+                    }
+                }
+                catch (DirectoryNotFoundException dnfe)
+                {
+                    throw new DirectoryNotFoundException("Error in Utility.printStateData()...The supplied output location " + outputlocation + " is invalid: " + dnfe.Message);
+                }
+                catch (ArgumentNullException ane)
+                {
+                    throw new Exception("Error in Utility.printStateData(): " + ane.Message);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("An unanticipated error occurred in Utility.printStateData() : " + e.Message);
+                }
+            }
+            else
+            {
+                if (outputlocation == null && stateData == null)
+                {
+                    throw new ArgumentNullException("Error in Utilities.printStateData(): A null value was passed into both parameters");
+                }
+                else if (outputlocation == null)
+                {
+                    throw new ArgumentNullException("Error in Utilities.printStateData(): A null value was passed into the outputlocation parameter");
+                }
+                else if (stateData == null)
+                {
+                    throw new ArgumentNullException("Error in Utilities.printStateData(): A null value was passed into the stateData parameter");
+                }
+                else
+                {
+                    throw new Exception("Error in Utilities.printStateData(): An unexpected error has occurred");
                 }
             }
         }
