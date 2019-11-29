@@ -34,6 +34,27 @@ namespace Programming_Challenge_SNFC
                     return null;
                 }
 
+                #region Validate Id
+                if(separatedInput[0] == "")
+                {
+                    // Not accepting blank Ids
+                    return null;
+                }
+                #endregion
+                #region Validate FirstName
+                if (separatedInput[1] == "")
+                {
+                    // Not accepting blank First Names
+                    return null;
+                }
+                #endregion
+                #region Validate LastName
+                if (separatedInput[2] == "")
+                {
+                    // Not accepting blank First Names
+                    return null;
+                }
+                #endregion
                 #region Validate Paycode
                 char paycode;
                 
@@ -106,6 +127,37 @@ namespace Programming_Challenge_SNFC
 
                 return returnThis;
             }
+        }
+        #endregion
+        #region getEmployeeById()
+        /// <summary>
+        /// getEmplyeeById()
+        /// 
+        /// Returns an employee object from a referenced employee list, based on a passed in employee Id
+        /// </summary>
+        /// <param name="Id">The id for the employee being searched for</param>
+        /// <param name="employees">The referenced list/table of employees</param>
+        /// <returns>Null if the id or list/table is invalid, Null if the employee could not be found in the list, A valid Employee object otherwise</returns>
+        public static Employee getEmployeeById(string Id, ref List<Employee> employees)
+        {
+            Employee returnThis = null;
+
+            if(Id != null && employees != null)
+            {
+                foreach(Employee e in employees)
+                {
+                    if(e != null)
+                    {
+                        if(e.Id == Id)
+                        {
+                            returnThis = e;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return returnThis;
         }
         #endregion
     }
