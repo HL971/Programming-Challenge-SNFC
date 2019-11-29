@@ -45,7 +45,7 @@ namespace Programming_Challenge_SNFC
         public static readonly string EMPLOYEESINFOLOCATION = @"../../../Items/Employees.txt";
 
         public static readonly string REQUIREMENTONEFILENAME = "/PayStubs.txt";
-        public static readonly string REQUIREMENTTWOFILENAME = "";
+        public static readonly string REQUIREMENTTWOFILENAME = "/TopEarners.txt";
         public static readonly string REQUIREMENTTHREEFILENAME = "";
     }
 }

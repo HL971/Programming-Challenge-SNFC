@@ -438,6 +438,119 @@ namespace Programming_Challenge_SNFC
             }
         }
         #endregion
+        #region collectEarnerInfo()
+        /// <summary>
+        /// collectEarnerInfo()
+        /// 
+        /// Takes a list of paycheck information and gathers info about the top 15% of earners in the company
+        /// Throws ArgumentNullException if a null value is passed into the payChecks parameter
+        /// </summary>
+        /// <param name="payChecks">A list of paycheck information for all employees</param>
+        /// <returns>An unsorted list of the top earners in the company</returns>
+        public static List<TopEarner> collectEarnerInfo(List<PayCheck> payChecks)
+        {
+            if(payChecks != null)
+            {
+                List<TopEarner> returnThis = new List<TopEarner>();
+
+                // Do not assume that the list is sorted
+                payChecks = sortPaychecks(payChecks);
+
+                int numberOfTopEarners = (int)(Math.Round((double)(payChecks.Count) * 0.15));
+
+                for(int i = 0; i < numberOfTopEarners; i++)
+                {
+                    returnThis.Add(new TopEarner()
+                    {
+                        FirstName = payChecks[i].FirstName,
+                        LastName = payChecks[i].LastName,
+                        Pay = payChecks[i].GrossPay,
+                        YearsWorked = (int)Math.Floor((DateTime.Now - payChecks[i].EmployeeHireDate).TotalDays / 365)
+                    });
+                }
+
+                return returnThis;
+            }
+            else
+            {
+                throw new ArgumentNullException("Error in collectEarnerInfo(): payChecks parameter was null");
+            }
+        }
+        #endregion
+        #region sortEarners()
+        public static List<TopEarner> sortEarners(List<TopEarner> earners)
+        {
+            if(earners.Count == 1)
+            {
+                return earners;
+            }
+            else
+            {
+                int halfcount = earners.Count / 2;
+                List<TopEarner> firstHalf = sortEarners(earners.GetRange(0, halfcount));
+                List<TopEarner> secondHalf = sortEarners(earners.GetRange(halfcount, earners.Count - halfcount));
+
+                int i = 0, n = 0;
+                List<TopEarner> returnThis = new List<TopEarner>();
+
+                while(i < firstHalf.Count || n < secondHalf.Count)
+                {
+                    if(n == secondHalf.Count)
+                    {
+                        returnThis.AddRange(firstHalf.GetRange(i, firstHalf.Count - i));
+                        i = firstHalf.Count;
+                    }
+                    else if(i == firstHalf.Count)
+                    {
+                        returnThis.AddRange(secondHalf.GetRange(n, secondHalf.Count - n));
+                        n = secondHalf.Count;
+                    }
+                    else
+                    {
+                        if(firstHalf[i].YearsWorked > secondHalf[n].YearsWorked)
+                        {
+                            returnThis.Add(firstHalf[i]);
+                            i++;
+                        }
+                        else if(firstHalf[i].YearsWorked < secondHalf[n].YearsWorked)
+                        {
+                            returnThis.Add(secondHalf[n]);
+                            n++;
+                        }
+                        else
+                        {
+                            int x = String.Compare(firstHalf[i].LastName, secondHalf[n].LastName);
+                            if(x < 0)
+                            {
+                                returnThis.Add(firstHalf[i]);
+                                i++;
+                            }
+                            else if(x > 0)
+                            {
+                                returnThis.Add(secondHalf[n]);
+                                n++;
+                            }
+                            else
+                            {
+                                if(String.Compare(firstHalf[i].FirstName, secondHalf[n].FirstName) < 0)
+                                {
+                                    returnThis.Add(firstHalf[i]);
+                                    i++;
+                                }
+                                else
+                                {
+                                    returnThis.Add(secondHalf[n]);
+                                    n++;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return returnThis;
+            }
+        }
+        #endregion
         #region printTopEarnerInfo()
         /// <summary>
         /// printTopEarnerInfo()
@@ -449,18 +562,18 @@ namespace Programming_Challenge_SNFC
         /// Throws an Exception if any other error occurs
         /// </summary>
         /// <param name="outputlocation">The path to print the file to</param>
-        /// <param name="paychecks">A list of the paystubs for the top earners, it is assumed to be in order</param>
-        public static void printTopEarnerInfo(string outputlocation, List<PayCheck> paychecks)
+        /// <param name="earners">A list of the information for the top earners, it is assumed to be in order</param>
+        public static void printTopEarnerInfo(string outputlocation, List<TopEarner> earners)
         {
-            if (outputlocation != null && paychecks != null)
+            if (outputlocation != null && earners != null)
             {
                 try
                 {
                     using (StreamWriter output = new StreamWriter(outputlocation + Definitions.REQUIREMENTTWOFILENAME))
                     {
-                        foreach (PayCheck payCheck in paychecks)
+                        foreach (TopEarner earner in earners)
                         {
-                            output.WriteLine(payCheck.printEarner());
+                            output.WriteLine(earner.ToString());
                         }
                     }
                 }
@@ -480,7 +593,7 @@ namespace Programming_Challenge_SNFC
             }
             else
             {
-                if (outputlocation == null && paychecks == null)
+                if (outputlocation == null && earners == null)
                 {
                     throw new ArgumentNullException("Error in Utilities.printTopEarnerInfo: A null value was passed into both parameters");
                 }
@@ -488,9 +601,9 @@ namespace Programming_Challenge_SNFC
                 {
                     throw new ArgumentNullException("Error in Utilities.printTopEarnerInfo: A null value was passed into the outputlocation parameter");
                 }
-                else if (paychecks == null)
+                else if (earners == null)
                 {
-                    throw new ArgumentNullException("Error in Utilities.printTopEarnerInfo: A null value was passed into the paychecks parameter");
+                    throw new ArgumentNullException("Error in Utilities.printTopEarnerInfo: A null value was passed into the earners parameter");
                 }
                 else
                 {

@@ -36,7 +36,5 @@ namespace Programming_Challenge_SNFC.Models
                 + ((DateTime.Now - EmployeeHireDate).TotalDays / 365) + " "
                 + GrossPay;
         }
-
-
     }
 }

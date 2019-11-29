@@ -60,12 +60,17 @@ namespace Programming_Challenge_SNFC
 
                     if (payChecks != null)
                     {
-                        Console.WriteLine("Writing top earners info to file");
+                        List<TopEarner> topEarners = null;
                         try
                         {
-
+                            Console.WriteLine("Gathering top earner data from paychecks");
+                            topEarners = Utility.collectEarnerInfo(payChecks);
+                            Console.WriteLine("Sorting Top Earner Data");
+                            topEarners = Utility.sortEarners(topEarners);
+                            Console.WriteLine("Writing top earners info to file");
+                            Utility.printTopEarnerInfo(args[0], topEarners);
                         }
-                        catch
+                        catch (Exception e)
                         {
                             Console.WriteLine("An error occurred while writing top earner info to " + args[0] + Definitions.REQUIREMENTTWOFILENAME + ": " + e.Message);
                         }
