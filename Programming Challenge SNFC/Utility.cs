@@ -613,6 +613,14 @@ namespace Programming_Challenge_SNFC
         }
         #endregion
         #region generateStateData()
+        /// <summary>
+        /// generateStateData()
+        /// 
+        /// Generates information about pay organised by state based on a passed in list of paycheck information.
+        /// Throws an ArgumentNullException if the payCheck information is null
+        /// </summary>
+        /// <param name="payChecks">A list of paycheck data to generate state specific data from</param>
+        /// <returns>A list of pay information by state</returns>
         public static List<StateData> generateStateData(List<PayCheck> payChecks)
         {
             if (payChecks != null)
@@ -638,25 +646,52 @@ namespace Programming_Challenge_SNFC
         }
         #endregion
         #region sortStateData()
+        /// <summary>
+        /// sortStateData()
+        /// 
+        /// Uses a bubble sort to sort a list of state data alphabetically by state
+        /// Throws ArgumentNullException if the stateData passed in is null
+        /// </summary>
+        /// <param name="stateData">The data to be sorted</param>
+        /// <returns>A list of state data sorted alphabetically by state</returns>
         public static List<StateData> sortStateData(List<StateData> stateData)
         {
-            for(int n = stateData.Count - 2; n > 0; n--)
+            if (stateData != null)
             {
-                for(int i = 0; i < n; i++)
+
+                for (int n = stateData.Count - 2; n > 0; n--)
                 {
-                    if(String.Compare(stateData[i].StateName, stateData[i + 1].StateName) > 0)
+                    for (int i = 0; i < n; i++)
                     {
-                        StateData holdThis = stateData[i];
-                        stateData[i] = stateData[i + 1];
-                        stateData[i + 1] = holdThis;
+                        if (String.Compare(stateData[i].StateName, stateData[i + 1].StateName) > 0)
+                        {
+                            StateData holdThis = stateData[i];
+                            stateData[i] = stateData[i + 1];
+                            stateData[i + 1] = holdThis;
+                        }
                     }
                 }
-            }
 
-            return stateData;
+                return stateData;
+            }
+            else
+            {
+                throw new ArgumentNullException("Error in Utility.sortStateData(): Null value passed into stateData parameter");
+            }
         }
         #endregion
         #region printStateData()
+        /// <summary>
+        /// printStateData()
+        /// 
+        /// Prints the given state data to a file
+        /// The filename is hardcoded in Definitions.cs
+        /// Throws an ArgumentNullException if either of the parameters is given as null
+        /// Throws a DirectoryNotFoundException if the given outputlocation is invalid
+        /// Throws an Exception if any other error occurs
+        /// </summary>
+        /// <param name="outputlocation">The path to print the file to</param>
+        /// <param name="stateData">A list of data to be printed, it is assumed to be sorted as desired before being passed in</param>
         public static void printStateData(string outputlocation, List<StateData> stateData)
         {
             if (outputlocation != null && stateData != null)
