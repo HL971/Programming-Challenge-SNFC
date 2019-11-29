@@ -7,6 +7,6 @@ namespace Programming_Challenge_SNFC.Models
     public class TaxRate
     {
         public string State { get; set; }
-        public double rate { get; set; }
+        public decimal rate { get; set; }
     }
 }

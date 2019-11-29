@@ -1,6 +1,7 @@
 ﻿using Programming_Challenge_SNFC.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -24,21 +25,27 @@ namespace Programming_Challenge_SNFC
         /// <summary>
         /// A list of states and the income tax rate for that state
         /// </summary>
-        public static readonly List<TaxRate> STATETAXRATES = new TaxRate[]{ new TaxRate(){ State = "UT", rate = 5.0 },
-                                                                            new TaxRate(){ State = "WY", rate = 5.0 },
-                                                                            new TaxRate(){ State = "NV", rate = 5.0 },
-                                                                            new TaxRate(){ State = "CO", rate = 6.5 },
-                                                                            new TaxRate(){ State = "ID", rate = 6.5 },
-                                                                            new TaxRate(){ State = "AZ", rate = 6.5 },
-                                                                            new TaxRate(){ State = "OR", rate = 6.5 },
-                                                                            new TaxRate(){ State = "WA", rate = 7.0 },
-                                                                            new TaxRate(){ State = "NM", rate = 7.0 },
-                                                                            new TaxRate(){ State = "TX", rate = 7.0 }
+        public static readonly List<TaxRate> STATETAXRATES = new TaxRate[]{ new TaxRate(){ State = "UT", rate = 0.05M },
+                                                                            new TaxRate(){ State = "WY", rate = 0.05M },
+                                                                            new TaxRate(){ State = "NV", rate = 0.05M },
+                                                                            new TaxRate(){ State = "CO", rate = 0.065M },
+                                                                            new TaxRate(){ State = "ID", rate = 0.065M },
+                                                                            new TaxRate(){ State = "AZ", rate = 0.065M },
+                                                                            new TaxRate(){ State = "OR", rate = 0.065M },
+                                                                            new TaxRate(){ State = "WA", rate = 0.07M },
+                                                                            new TaxRate(){ State = "NM", rate = 0.07M },
+                                                                            new TaxRate(){ State = "TX", rate = 0.07M }
         }.ToList();
 
         /// <summary>
         /// The definition for the federal income tax rate
         /// </summary>
-        public static readonly double FEDERALTAXRATE = 15.0;
+        public static readonly decimal FEDERALTAXRATE = 0.15M;
+
+        public static readonly string EMPLOYEESINFOLOCATION = @"../../../Items/Employees.txt";
+
+        public static readonly string REQUIREMENTONEFILENAME = "/PayStubs.txt";
+        public static readonly string REQUIREMENTTWOFILENAME = "";
+        public static readonly string REQUIREMENTTHREEFILENAME = "";
     }
 }

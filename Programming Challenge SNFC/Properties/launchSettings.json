@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Programming Challenge SNFC": {
+      "commandName": "Project",
+      "commandLineArgs": "F:\\TestOutput"
+    }
+  }
+}
